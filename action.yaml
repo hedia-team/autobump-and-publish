@@ -10,13 +10,12 @@ inputs:
     description: "NPM token used to publish package to npm"
     required: true
 
-  label:
-    description: "Type of version bump [major, minor, patch]"
-    required: true
-
   issue-number:
     description: "Issue number required in order to write/remove comments on the current PR"
     required: true
+
+  label:
+    description: "Type of version bump [major, minor, patch]"
 
   skip-step: # [true, false]
     description: "Variable used to determine if certain steps should be skipped"

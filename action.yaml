@@ -48,58 +48,86 @@ runs:
 
   steps:
     - name: Fetch latest version from NPM
+      id: bump-package-version
       run: |
         if [[ "${{inputs.skip-step}}" == 'false' ]]; then
+          echo "Fetching latest package version"
           chmod +x bump-package-version.sh
           ./bump-package-version.sh "$inputs.label"
+        else
+          echo "Skipped bumping version"
         fi
         exit 0
       shell: bash
 
     - name: Run ci
+      id: run-ci
       run: |
         if [[ "${{inputs.run-ci}}" == 'true' && "${{inputs.skip-step}}" == 'false' ]]; then
+          echo "Running ci"
           npm run ci --ignore-scripts
+        else
+          echo "Skipped ci"
         fi
         exit 0
       shell: bash
 
     - name: Run lint
+      id: run-lint
       run: |
         if [[ "${{inputs.run-lint}}" == 'true' && "${{inputs.skip-step}}" == 'false' ]]; then
+          echo "Running lint"
           npm run lint
+        else
+          echo "Skipped lint"
         fi
         exit 0
       shell: bash
 
     - name: Run lint-pkg
+      id: run-lint-pkg
       run: |
         if [[ "${{inputs.run-lint-pkg}}" == 'true' && "${{inputs.skip-step}}" == 'false' ]]; then
+          echo "Running lint-pkg"
           npm run lint-pkg
+        else
+          echo "Skipped lint-pkg"
         fi
         exit 0
       shell: bash
 
     - name: Run test-coverage
+      id: run-test-coverage
       run: |
         if [[ "${{inputs.run-test-coverage}}" == 'true' && "${{inputs.skip-step}}" == 'false' ]]; then
+          echo "Running test-coverage"
           npm run test-coverage
+        else
+          echo "Skipped test-coverage"
         fi
         exit 0
       shell: bash
 
     - name: Run test
+      id: run-test
       run: |
         if [[ "${{inputs.run-test}}" == 'true' && "${{inputs.skip-step}}" == 'false' ]]; then
+          echo "Running test"
           npm run test
+        else
+          echo "Skipped test"
         fi
         exit 0
       shell: bash
 
     - name: Run tsc
+      id: run-tsc
       run: |
         if [[ "${{inputs.run-tsc}}" == 'true' && "${{inputs.skip-step}}" == 'false' ]]; then
+          echo "Running tsc"
           npm run tsc
+        else
+          echo "Skipped tsc"
         fi
         exit 0
       shell: bash
@@ -108,20 +136,27 @@ runs:
       id: publish-alpha
       run: |
         if [[ "${{inputs.skip-step}}" == 'false' ]]; then
+          echo "publishing alpha"
           npm publish --tag alpha
+        else
+          echo "Skipped publishing"
         fi
         exit 0
       shell: bash
 
     - name: Remove alpha tag
+      id: remove-alpha-tag
       run: |
         if [[ "${{inputs.skip-step}}" == 'false' ]]; then
           chmod +x ./remove-alpha-tag.sh && ./remove-alpha-tag.sh
+        else
+          echo "Skipped remove-alpha-tag"
         fi
         exit 0
       shell: bash
 
     - name: Remove old comment from PR
+      id: delete-comment
       uses: izhangzhihao/delete-comment@master
       with:
         github_token: ${{ inputs.github-token }}
@@ -129,6 +164,7 @@ runs:
         issue_number: ${{ inputs.issue-number }} # remove comments from the current PR
 
     - name: Write comment on PR
+      id: write-comment
       uses: peter-evans/create-or-update-comment@v1
       with:
         issue-number: ${{ inputs.issue-number }}

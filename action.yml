@@ -1,17 +1,110 @@
 name: "Hedia - NPM Autobumper"
 description: "Hedia's npm packages autobumper"
+
 inputs:
+  npm-token: # npm token used to publish package to npm
+    required: true
+  issue_number: # Required to write/remove comments on current PR
+    required: true
   label: # [major, minor, patch]
     description: "Type of version bump"
     required: true
+  run-ci: # [true, false]
+    description: "Run npm run ci"
+    required: false
+  run-lint: # [true, false]
+    description: "Run npm run lint"
+    required: false
+  run-lint-pkg: # [true, false]
+    description: "Run npm run lint-pkg"
+    required: false  
+  run-test: # [true, false]
+    description: "Run npm run test"
+    required: false
+  run-test-coverage: # [true, false]
+    description: "Run npm run test-coverage"
+    required: false  
+  run-tsc: # [true, false]
+    description: "Run npm run tsc"
+    required: false  
+  skip-step: # [true, false]
+    description: "Variable used to determine if certain steps should be skipped"
+    required: true
+  is-open-pr: # [true, false]
+    description: "Variable used to determine if action is being triggered by oppening a PR"
+    required: true
+    default: false
+
 runs:
   using: "composite"
+
   steps:
     - name: Fetch latest version from NPM
+      if: ${{ inputs.skip-step == 'false' }}
       run: |
         chmod +x bump-package-version.sh
         ./bump-package-version.sh "$inputs.label"
       shell: bash
+
+    - name: Run ci
+        if: ${{ inputs.run-ci == 'true' }}
+        run: npm run ci --ignore-scripts
+
+    - name: Run lint
+        if: ${{ inputs.run-test == 'true' }}
+        run: npm run lint
+
+    - name: Run lint-pkg
+        if: ${{ inputs.run-test == 'true' }}
+        run: npm run lint      
+
+    - name: Run test-coverage
+        if: ${{ inputs.run-test-coverage == 'true' }}
+        run: npm run test-coverage
+
+    - name: Run test
+        if: ${{ inputs.run-test == 'true' }}
+        run: npm run test
+
+    - name: Run tsc
+        if: ${{ inputs.run-test == 'true' }}
+        run: npm run tsc
+
+    - name: Publish alpha version
+        if: ${{ inputs.skip-step == 'false' }}
+        id: publish-alpha
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ inputs.npm-token }}
+          tag: alpha
+
+    - name: Check if version exists
+        if: steps.publish-alpha.outputs.type == 'none'
+        run: |
+          echo "Package JSON version is already published, please bump the version!"
+          exit 1
+
+    - name: Remove alpha tag
+      if: ${{ inputs.skip-step == 'false' }}
+      run: |
+        chmod +x ./remove-alpha-tag.sh && ./remove-alpha-tag.sh
+
+    - name: Remove old comment from PR
+      if: ${{ inputs.is-open-pr == 'false' }}
+      uses: izhangzhihao/delete-comment@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        delete_user_name: github-actions[bot]
+        issue_number: ${{ inputs.issue_number }} # remove comments from the current PR
+
+    - name: Write comment on PR
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        issue-number: ${{ inputs.issue_number }}
+        body: |
+          🎉  Successfully released alpha version  🎉
+          ✅  ${{ needs.on-push-commit-bump-and-publish-alpha.outputs.version }}
+
 branding:
   icon: "arrow-up-circle"
   color: "purple"

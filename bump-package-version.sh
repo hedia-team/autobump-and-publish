@@ -52,16 +52,12 @@ done
 alphaVersionCounter="$(echo "$latestAlphaVersion" | grep -oP '(?:-alpha.)\K\d+')"
 
 # Bumping the alphaVersionCounter by 1.
-echo "before $alphaVersionCounter"
-
 if [[ "$alphaVersionCounter" != "" ]];
 	then
 		alphaVersionCounter="$((alphaVersionCounter+1))"
 	else
 		alphaVersionCounter="0"
 fi
-
-echo "after $alphaVersionCounter"
 
 # Get the current packageVersion and check if -alpha.X tag has been set (in case of package.json version bump (Open PR))
 packageVersion=$(sed -nE 's/^\s*"version": "(.*?)",$/\1/p' package.json)

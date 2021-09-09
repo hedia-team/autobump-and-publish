@@ -71,7 +71,7 @@ runs:
           echo "Fetching latest package version"
           chmod +x bump-package-version.sh
           test=$(./bump-package-version.sh "${LABEL}")
-          echo "::set-output name=test-output::$(echo $test)"
+          echo "::set-output name=test-output::$(echo $test | cut -d+ -f2)"
         else
           echo "Skipped bumping version"
         fi

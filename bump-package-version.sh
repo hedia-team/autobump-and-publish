@@ -67,10 +67,9 @@ then
 	# Set alpha tag to the correspondent version
 	echo "Setting alpha version to $alphaVersionCounter"
 	sed -i 's/\("version": "[0-9]\+.[0-9]\+.[0-9]\+\)\(-alpha.\)\([0-9]\)/\1\'-alpha.$alphaVersionCounter'/' package.json
-	bumpedPackageVersion=$(sed -nE 's/^\s*"version": "([0-9]+.[0-9]+.[0-9]+).*?",$/\1/p' package.json)
 	# Commit changes
 	git add package.json
-	git commit -m "autobump $bumpedPackageVersion"
+	git commit -m "autobump $upToDatePackageJSON"
 else
 	echo "on push"
 	# On push commit
@@ -78,3 +77,6 @@ else
 	echo "Setting alpha version to $alphaVersionCounter"
 	sed -i 's/\("version": "\)\([0-9]\+\.[0-9]\+\.[0-9]\+\)\("\)/\1\2\-alpha.'$alphaVersionCounter'\3/' package.json
 fi
+
+postBumpPackageJSONVersion=$(sed -nE 's/^\s*"version": "(.*?)",$/\1/p' package.json)
+echo "+ $postBumPackageJSONVersion"

@@ -156,17 +156,19 @@ runs:
       run: |
         if [[ "${{inputs.is-post-merge}}" == 'true' ]]; then
           echo "publishing release on npm"
-          npm publish
+          test1=$(npm publish)
+          echo ::set-output name=test-output1::"$test1"
         else
           echo "publishing alpha on npm"
-          npm publish --tag alpha
+          test2=$(npm publish --tag alpha)
+          echo ::set-output name=test-output2::"$test2"
         fi
       shell: bash
 
     - name: Remove alpha tag
       id: remove-alpha-tag
       run: |
-        if [[  "${{inputs.is-post-merge}}" == 'false' ]]; then
+        if [[ "${{inputs.is-post-merge}}" == 'false' ]]; then
           echo "Removing the alpha-tag"
           chmod +x ./remove-alpha-tag.sh && ./remove-alpha-tag.sh
         else
@@ -190,7 +192,7 @@ runs:
         issue-number: ${{ inputs.issue-number }}
         body: |
           🎉  Successfully published new version  🎉
-          ✅  ${{ steps.bump-package-version.outputs.test-output }}
+          ✅  ${{ steps.publish-package-npm.outputs.test-output2 }}
 
 branding:
   icon: "arrow-up-circle"

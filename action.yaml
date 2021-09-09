@@ -46,65 +46,80 @@ runs:
 
   steps:
     - name: Fetch latest version from NPM
-      if: ${{ inputs.skip-step == 'false' }}
       run: |
-        chmod +x bump-package-version.sh
-        ./bump-package-version.sh "$inputs.label"
+        if [[ "${{inputs.skip-step}}" == 'false' ]]; then
+          chmod +x bump-package-version.sh
+          ./bump-package-version.sh "$inputs.label"
+        fi
+        exit 0
       shell: bash
 
     - name: Run ci
-      if: ${{ inputs.run-ci == 'true' }}
-      run: npm run ci --ignore-scripts
+      run: |
+        if [[ "${{inputs.run-ci}}" == 'true' || "${{inputs.skip-step}}" == 'false' ]]; then
+          npm run ci --ignore-scripts
+        fi
+        exit 0
       shell: bash
 
     - name: Run lint
-      if: ${{ inputs.run-test == 'true' }}
-      run: npm run lint
+      run: |
+        if [[ "${{inputs.run-lint}}" == 'true' || "${{inputs.skip-step}}" == 'false' ]]; then
+          npm run lint
+        fi
+        exit 0
       shell: bash
 
     - name: Run lint-pkg
-      if: ${{ inputs.run-test == 'true' }}
-      run: npm run lint
+      run: |
+        if [[ "${{inputs.run-lint-pkg}}" == 'true' || "${{inputs.skip-step}}" == 'false' ]]; then
+          npm run lint-pkg
+        fi
+        exit 0
       shell: bash
 
     - name: Run test-coverage
-      if: ${{ inputs.run-test-coverage == 'true' }}
-      run: npm run test-coverage
+      run: |
+        if [[ "${{inputs.run-test-coverage}}" == 'true' || "${{inputs.skip-step}}" == 'false' ]]; then
+          npm run test-coverage
+        fi
+        exit 0
       shell: bash
 
     - name: Run test
-      if: ${{ inputs.run-test == 'true' }}
-      run: npm run test
+      run: |
+        if [[ "${{inputs.run-test}}" == 'true' || "${{inputs.skip-step}}" == 'false' ]]; then
+          npm run test
+        fi
+        exit 0
       shell: bash
 
     - name: Run tsc
-      if: ${{ inputs.run-test == 'true' }}
-      run: npm run tsc
+      run: |
+        if [[ "${{inputs.run-tsc}}" == 'true' || "${{inputs.skip-step}}" == 'false' ]]; then
+          npm run tsc
+        fi
+        exit 0
       shell: bash
 
     - name: Publish alpha version
-      if: ${{ inputs.skip-step == 'false' }}
       id: publish-alpha
-      uses: JS-DevTools/npm-publish@v1
-      with:
-        token: ${{ inputs.npm-token }}
-        tag: alpha
-
-    - name: Check if version exists
-      if: steps.publish-alpha.outputs.type == 'none'
       run: |
-        echo "Package JSON version is already published, please bump the version!"
-        exit 1
+        if [[ "${{inputs.skip-step}}" == 'false' ]]; then
+          npm publish --tag alpha
+        fi
+        exit 0
       shell: bash
 
     - name: Remove alpha tag
-      if: ${{ inputs.skip-step == 'false' }}
       run: |
-        chmod +x ./remove-alpha-tag.sh && ./remove-alpha-tag.sh
+        if [[ "${{inputs.skip-step}}" == 'false' ]]; then
+          chmod +x ./remove-alpha-tag.sh && ./remove-alpha-tag.sh
+        fi
+        exit 0
       shell: bash
 
     - name: Remove old comment from PR
-      if: ${{ inputs.is-open-pr == 'false' }}
       uses: izhangzhihao/delete-comment@master
       with:
         github_token: ${{ inputs.github-token }}
@@ -117,7 +132,7 @@ runs:
         issue-number: ${{ inputs.issue-number }}
         body: |
           🎉  Successfully released alpha version  🎉
-          ✅  ${{ needs.on-push-commit-bump-and-publish-alpha.outputs.version }}
+          ✅  ${{ steps.publish-alpha.outputs.version }}
 
 branding:
   icon: "arrow-up-circle"

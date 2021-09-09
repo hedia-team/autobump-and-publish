@@ -1,4 +1,4 @@
-name: "Hedia - NPM Autobumper (Open PR)"
+name: "Hedia - NPM Autobumper"
 description: "Hedia's npm packages autobumper"
 inputs:
   label: # [major, minor, patch]

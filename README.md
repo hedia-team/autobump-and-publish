@@ -105,3 +105,9 @@ The associated scripts and documentation in this project are released under the 
 ## No affiliation with GitHub Inc.
 
 GitHub are registered trademarks of GitHub, Inc. GitHub name used in this project are for identification purposes only. The project is not associated in any way with GitHub Inc. and is not an official solution of GitHub Inc. It was made available in order to facilitate the use of the site GitHub.
+
+### Using
+
+- [izhangzhihao/delete-comment](https://github.com/marketplace/actions/delete-comment), published by [MIT License](https://github.com/izhangzhihao/delete-comment/blob/master/LICENSE)
+
+- [peter-evans/create-or-update-comment](https://github.com/marketplace/actions/create-or-update-comment), published by [MIT License](https://github.com/peter-evans/create-or-update-comment/blob/main/LICENSE)

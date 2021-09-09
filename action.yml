@@ -10,5 +10,7 @@ runs:
     - name: Fetch latest version from NPM
       env:
         LABEL: ${{ toJson(INPUT_LABEL) }}
-      run: ${{ github.action_path }}/bump-package-version.sh "$LABEL"
+      run: |
+        chmod +x ${{ github.action_path }}/bump-package-version.sh
+        ./${{ github.action_path }}/bump-package-version.sh "$LABEL"
       shell: bash

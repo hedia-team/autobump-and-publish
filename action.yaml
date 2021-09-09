@@ -66,7 +66,7 @@ runs:
 
     - name: Run lint
       run: |
-        if [[ "${{inputs.run-lint}}" == 'true' || "${{inputs.skip-step}}" == 'false' ]]; then
+        if [[ "${{inputs.run-lint}}" == 'true' && "${{inputs.skip-step}}" == 'false' ]]; then
           npm run lint
         fi
         exit 0
@@ -74,7 +74,7 @@ runs:
 
     - name: Run lint-pkg
       run: |
-        if [[ "${{inputs.run-lint-pkg}}" == 'true' || "${{inputs.skip-step}}" == 'false' ]]; then
+        if [[ "${{inputs.run-lint-pkg}}" == 'true' && "${{inputs.skip-step}}" == 'false' ]]; then
           npm run lint-pkg
         fi
         exit 0
@@ -82,7 +82,7 @@ runs:
 
     - name: Run test-coverage
       run: |
-        if [[ "${{inputs.run-test-coverage}}" == 'true' || "${{inputs.skip-step}}" == 'false' ]]; then
+        if [[ "${{inputs.run-test-coverage}}" == 'true' && "${{inputs.skip-step}}" == 'false' ]]; then
           npm run test-coverage
         fi
         exit 0
@@ -90,7 +90,7 @@ runs:
 
     - name: Run test
       run: |
-        if [[ "${{inputs.run-test}}" == 'true' || "${{inputs.skip-step}}" == 'false' ]]; then
+        if [[ "${{inputs.run-test}}" == 'true' && "${{inputs.skip-step}}" == 'false' ]]; then
           npm run test
         fi
         exit 0
@@ -98,7 +98,7 @@ runs:
 
     - name: Run tsc
       run: |
-        if [[ "${{inputs.run-tsc}}" == 'true' || "${{inputs.skip-step}}" == 'false' ]]; then
+        if [[ "${{inputs.run-tsc}}" == 'true' && "${{inputs.skip-step}}" == 'false' ]]; then
           npm run tsc
         fi
         exit 0

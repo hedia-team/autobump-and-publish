@@ -85,11 +85,13 @@ runs:
         if [[ "${{inputs.skip-step}}" == 'false' && "${{inputs.is-post-merge}}" == 'false' ]]; then
           echo "Fetching latest package version"
           chmod +x bump-package-version.sh
-          ./bump-package-version.sh "$inputs.label"
+          ./bump-package-version.sh "${LABEL}"
         else
           echo "Skipped bumping version"
         fi
         exit 0
+      env:
+        LABEL: ${{ inputs.label }}
       shell: bash
 
     - name: Run ci

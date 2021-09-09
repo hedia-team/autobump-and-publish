@@ -14,20 +14,23 @@ inputs:
     description: "Type of version bump [major, minor, patch]"
     required: true
 
-  skip-step: # [true, false]
-    description: "Variable used to determine if certain steps should be skipped"
-    required: true
-
   issue-number:
     description: "Issue number required in order to write/remove comments on the current PR"
     required: true
 
+  skip-step: # [true, false]
+    description: "Variable used to determine if certain steps should be skipped"
+    required: false
+    default: false
+
   is-open-pr: # [true, false]
     description: "Variable used to determine if action is being triggered by oppening a PR"
+    required: false
     default: false
 
   is-post-merge: # [true, false]
     description: "Variable used to determine if action is being triggered by post-merging a PR"
+    required: false
     default: false
 
   run-ci: # [true, false]

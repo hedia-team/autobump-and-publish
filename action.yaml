@@ -70,8 +70,8 @@ runs:
         if [[ "${{inputs.is-post-merge}}" == 'false' ]]; then
           echo "Fetching latest package version"
           chmod +x bump-package-version.sh
-          ./bump-package-version.sh "${LABEL}"
-          echo "::set-output name=test-output::$(echo "test-output asdasd")"
+          test=$(./bump-package-version.sh "${LABEL}")
+          echo "::set-output name=test-output::$(echo $test)"
         else
           echo "Skipped bumping version"
         fi
@@ -192,8 +192,6 @@ runs:
         body: |
           🎉  Successfully published new version  🎉
           (1) ${{ steps.bump-package-version.outputs.test-output }}
-          (2) ${{ steps.bump-package-version.outputs.test-output-two }}
-          (3) ${{ steps.bump-package-version.outputs.version-number }}
 
 branding:
   icon: "arrow-up-circle"

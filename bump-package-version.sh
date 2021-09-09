@@ -78,6 +78,3 @@ else
 	echo "Setting alpha version to $alphaVersionCounter"
 	sed -i 's/\("version": "\)\([0-9]\+\.[0-9]\+\.[0-9]\+\)\("\)/\1\2\-alpha.'$alphaVersionCounter'\3/' package.json
 fi
-
-echo "::set-output name=version-number::$(echo $bumpedPackageVersion-alpha.$alphaVersionCounter)"
-echo "::set-output name=test-output-two::$(echo "test-output asdasd")"

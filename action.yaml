@@ -192,7 +192,7 @@ runs:
         issue-number: ${{ inputs.issue-number }}
         body: |
           🎉  Successfully published new version  🎉
-          "${VERSION}"
+          ${{ VERSION }}
 
 branding:
   icon: "arrow-up-circle"

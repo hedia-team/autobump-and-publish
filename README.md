@@ -23,7 +23,7 @@ on:
 ...
 ...
 - name: Autobump & Publish
-    uses: hedia-team/hedia-autobumper@master
+    uses: hedia-team/bump-and-publish@master
     with:
         label: ${{ toJson(github.event.pull_request.labels.*.name) }}
         npm-token: ${{ env.NPM_TOKEN }}
@@ -49,7 +49,7 @@ on:
 
 - name: Autobump & Publish
     if: ${{ env.CI_SKIP == 'false' }}
-    uses: hedia-team/hedia-autobumper@master
+    uses: hedia-team/bump-and-publish@master
     with:
         label: ${{ toJson(github.event.pull_request.labels.*.name) }}
         skip-step: ${{ env.CI_SKIP }}
@@ -71,7 +71,7 @@ on:
 ...
 ...
 - name: Autobump & Publish
-    uses: hedia-team/hedia-autobumper@master
+    uses: hedia-team/bump-and-publish@master
     with:
         npm-token: ${{ env.NPM_TOKEN }}
         issue-number: ${{ github.event.number }}

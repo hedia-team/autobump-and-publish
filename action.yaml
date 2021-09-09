@@ -4,7 +4,9 @@ description: "Hedia's npm packages autobumper"
 inputs:
   npm-token: # npm token used to publish package to npm
     required: true
-  issue_number: # Required to write/remove comments on current PR
+  github-token: #GitHub token
+    required: true
+  issue-number: # Required to write/remove comments on current PR
     required: true
   label: # [major, minor, patch]
     description: "Type of version bump"

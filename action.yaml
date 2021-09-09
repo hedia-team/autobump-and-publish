@@ -1,5 +1,5 @@
-name: "Autobump & Publish"
-description: "Hedia's npm packages autobumper"
+name: "Autobump version and publish"
+description: "Hedia's npm packages autobumper & publisher"
 
 inputs:
   github-token:

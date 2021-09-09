@@ -101,14 +101,14 @@ runs:
       if: ${{ inputs.is-open-pr == 'false' }}
       uses: izhangzhihao/delete-comment@master
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ inputs.github-token }}
         delete_user_name: github-actions[bot]
-        issue_number: ${{ inputs.issue_number }} # remove comments from the current PR
+        issue_number: ${{ inputs.issue-number }} # remove comments from the current PR
 
     - name: Write comment on PR
       uses: peter-evans/create-or-update-comment@v1
       with:
-        issue-number: ${{ inputs.issue_number }}
+        issue-number: ${{ inputs.issue-number }}
         body: |
           🎉  Successfully released alpha version  🎉
           ✅  ${{ needs.on-push-commit-bump-and-publish-alpha.outputs.version }}

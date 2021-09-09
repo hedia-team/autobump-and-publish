@@ -164,15 +164,15 @@ runs:
         exit 0
       shell: bash
 
-    - name: Publish alpha version
-      id: publish-alpha
+    - name: Publish package on NPM
+      id: publish-package-npm
       run: |
-        if [[ "${{inputs.skip-step}}" == 'false' ]]; then
-          echo "publishing alpha"
-          npm publish --tag alpha
-        elif [[ "${{inputs.is-post-merge}}" == 'true' ]]; then
-          echo "publishing release"
+        if [[ "${{inputs.is-post-merge}}" == 'true' ]]; then
+          echo "publishing release on npm"
           npm publish
+        elif [[ "${{inputs.skip-step}}" == 'false' ]]; then
+          echo "publishing alpha on npm"
+          npm publish --tag alpha
         else
           echo "Skipped publishing"
         fi

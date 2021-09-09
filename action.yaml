@@ -68,11 +68,13 @@ runs:
       run: |
         if [[ "${{inputs.skip-step}}" == 'false' ]]; then
           echo "Registering NPM access token"
-          npm config set '//registry.npmjs.org/:_authToken' $inputs.npm-token
+          npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
         else
           echo "Skipped registering NPM access token"
         fi
         exit 0
+      env:
+        NPM_TOKEN: ${{ inputs.npm-token }}
       shell: bash
 
     - name: Fetch latest version from NPM

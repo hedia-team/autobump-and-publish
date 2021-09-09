@@ -17,16 +17,16 @@ inputs:
     required: false
   run-lint-pkg: # [true, false]
     description: "Run npm run lint-pkg"
-    required: false  
+    required: false
   run-test: # [true, false]
     description: "Run npm run test"
     required: false
   run-test-coverage: # [true, false]
     description: "Run npm run test-coverage"
-    required: false  
+    required: false
   run-tsc: # [true, false]
     description: "Run npm run tsc"
-    required: false  
+    required: false
   skip-step: # [true, false]
     description: "Variable used to determine if certain steps should be skipped"
     required: true
@@ -47,42 +47,42 @@ runs:
       shell: bash
 
     - name: Run ci
-        if: ${{ inputs.run-ci == 'true' }}
-        run: npm run ci --ignore-scripts
+      if: ${{ inputs.run-ci == 'true' }}
+      run: npm run ci --ignore-scripts
 
     - name: Run lint
-        if: ${{ inputs.run-test == 'true' }}
-        run: npm run lint
+      if: ${{ inputs.run-test == 'true' }}
+      run: npm run lint
 
     - name: Run lint-pkg
-        if: ${{ inputs.run-test == 'true' }}
-        run: npm run lint      
+      if: ${{ inputs.run-test == 'true' }}
+      run: npm run lint
 
     - name: Run test-coverage
-        if: ${{ inputs.run-test-coverage == 'true' }}
-        run: npm run test-coverage
+      if: ${{ inputs.run-test-coverage == 'true' }}
+      run: npm run test-coverage
 
     - name: Run test
-        if: ${{ inputs.run-test == 'true' }}
-        run: npm run test
+      if: ${{ inputs.run-test == 'true' }}
+      run: npm run test
 
     - name: Run tsc
-        if: ${{ inputs.run-test == 'true' }}
-        run: npm run tsc
+      if: ${{ inputs.run-test == 'true' }}
+      run: npm run tsc
 
     - name: Publish alpha version
-        if: ${{ inputs.skip-step == 'false' }}
-        id: publish-alpha
-        uses: JS-DevTools/npm-publish@v1
-        with:
-          token: ${{ inputs.npm-token }}
-          tag: alpha
+      if: ${{ inputs.skip-step == 'false' }}
+      id: publish-alpha
+      uses: JS-DevTools/npm-publish@v1
+      with:
+        token: ${{ inputs.npm-token }}
+        tag: alpha
 
     - name: Check if version exists
-        if: steps.publish-alpha.outputs.type == 'none'
-        run: |
-          echo "Package JSON version is already published, please bump the version!"
-          exit 1
+      if: steps.publish-alpha.outputs.type == 'none'
+      run: |
+        echo "Package JSON version is already published, please bump the version!"
+        exit 1
 
     - name: Remove alpha tag
       if: ${{ inputs.skip-step == 'false' }}

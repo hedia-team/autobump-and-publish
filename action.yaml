@@ -3,52 +3,52 @@ description: "Hedia's npm packages autobumper & publisher"
 
 inputs:
   github-token:
-    description: "GitHub token used to remove comment from PR"
+    description: "GitHub token required by izhangzhihao/delete-comment to remove comment from PR"
     required: true
 
   npm-token:
-    description: "NPM token used to publish package to npm"
+    description: "NPM token required to publish package to npm"
     required: true
 
   issue-number:
-    description: "Issue number required in order to write/remove comments on the current PR"
+    description: "Issue number required by peter-evans/create-or-update-comment & izhangzhihao/delete-comment in order to write/remove comments on the current PR"
     required: true
 
   label:
     description: "Type of version bump [major, minor, patch]"
 
   is-post-merge: # [true, false]
-    description: "Variable used to determine if action is being triggered by post-merging the PR (Will publish package as release)"
+    description: "Boolean used to publish package as release on NPM if action is being triggered by post-merging the PR"
     required: false
     default: false
 
   run-ci: # [true, false]
-    description: "Boolean value to determine if npm run ci shall run"
+    description: "Value used to determine if npm run ci shall run"
     required: false
     default: false
 
   run-lint: # [true, false]
-    description: "Boolean value to determine if npm run lint shall run"
+    description: "Value used to determine if npm run lint shall run"
     required: false
     default: false
 
   run-lint-pkg: # [true, false]
-    description: "Boolean value to determine if npm run lint-pkg shall run"
+    description: "Value used to determine if npm run lint-pkg shall run"
     required: false
     default: false
 
   run-test: # [true, false]
-    description: "Boolean value to determine if npm run test shall run"
+    description: "Value used to determine if npm run test shall run"
     required: false
     default: false
 
   run-test-coverage: # [true, false]
-    description: "Boolean value to determine if npm run test-coverage shall run"
+    description: "Value used to determine if npm run test-coverage shall run"
     required: false
     default: false
 
   run-tsc: # [true, false]
-    description: "Boolean value to determine if npm run tsc shall run"
+    description: "Value used to determine if npm run tsc shall run"
     required: false
     default: false
 

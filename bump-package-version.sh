@@ -77,8 +77,3 @@ else
 	echo "Setting alpha version to $alphaVersionCounter"
 	sed -i 's/\("version": "\)\([0-9]\+\.[0-9]\+\.[0-9]\+\)\("\)/\1\2\-alpha.'$alphaVersionCounter'\3/' package.json
 fi
-
-postBumpPackageJSONVersion=$(sed -nE 's/^\s*"version": "(.*?)",$/\1/p' package.json)
-echo "+ $postBumPackageJSONVersion"
-
-echo "test"

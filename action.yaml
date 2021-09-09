@@ -58,7 +58,7 @@ runs:
 
     - name: Run ci
       run: |
-        if [[ "${{inputs.run-ci}}" == 'true' || "${{inputs.skip-step}}" == 'false' ]]; then
+        if [[ "${{inputs.run-ci}}" == 'true' && "${{inputs.skip-step}}" == 'false' ]]; then
           npm run ci --ignore-scripts
         fi
         exit 0

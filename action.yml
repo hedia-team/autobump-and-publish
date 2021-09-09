@@ -9,11 +9,11 @@ runs:
   steps:
     - name: Fetch latest version from NPM
       env:
-        LABEL: ${{ toJson(INPUT_LABEL) }}
+        LABEL: ${{ toJson($INPUT_LABEL) }}
       run: |
         chmod +x ${{ github.action_path }}/bump-package-version.sh
         ./${{ github.action_path }}/bump-package-version.sh "$LABEL"
       shell: bash
 branding:
-  icon: 'arrow-up-circle'  
-  color: 'purple'
+  icon: "arrow-up-circle"
+  color: "purple"

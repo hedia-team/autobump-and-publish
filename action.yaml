@@ -175,13 +175,19 @@ runs:
         exit 0
       shell: bash
 
-    - name: Remove old comment from PR
-      id: delete-comment
-      uses: izhangzhihao/delete-comment@master
+    - name: Find Comment
+      uses: peter-evans/find-comment@v1
+      id: find-comment
       with:
-        github_token: ${{ inputs.github-token }}
-        delete_user_name: github-actions[bot]
-        issue_number: ${{ inputs.issue-number }} # remove comments from the current PR
+        issue-number: ${{ inputs.issue-number }}
+        comment-author: github-actions[bot]
+
+    - name: Delete comment
+        uses: jungwinter/comment@v1
+        with:
+          type: delete
+          comment_id: ${{ steps.find-comment.outputs.comment-author }}
+          token: ${{ inputs.github-token }}
 
     - name: Write comment on PR
       id: write-comment

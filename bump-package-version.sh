@@ -80,3 +80,5 @@ fi
 
 postBumpPackageJSONVersion=$(sed -nE 's/^\s*"version": "(.*?)",$/\1/p' package.json)
 echo "+ $postBumPackageJSONVersion"
+
+echo "test"

@@ -1,0 +1,14 @@
+name: "Hedia - NPM Autobumper (Open PR)"
+description: "Hedia's npm packages autobumper"
+inputs:
+  label: # [major, minor, patch]
+    description: "Type of version bump"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Fetch latest version from NPM
+      env:
+        LABEL: ${{ toJson(INPUT_LABEL) }}
+      run: ${{ github.action_path }}/bump-package-version.sh "$LABEL"
+      shell: bash

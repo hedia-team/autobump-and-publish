@@ -1,6 +1,6 @@
 name: "Hedia - NPM Autobumper"
 description: "Hedia's npm packages autobumper"
-icon: arrow-up-circle
+icon: "arrow-up-circle"
 inputs:
   label: # [major, minor, patch]
     description: "Type of version bump"

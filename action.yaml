@@ -2,8 +2,16 @@ name: "Autobump version and publish"
 description: "Hedia's npm packages autobumper & publisher"
 
 inputs:
+  github-token:
+    description: "GitHub token used to remove comment from PR"
+    required: true
+
   npm-token:
     description: "NPM token used to publish package to npm"
+    required: true
+
+  issue-number:
+    description: "Issue number required in order to write/remove comments on the current PR"
     required: true
 
   label:
@@ -166,6 +174,23 @@ runs:
         fi
         exit 0
       shell: bash
+
+    - name: Remove old comment from PR
+      id: delete-comment
+      uses: izhangzhihao/delete-comment@master
+      with:
+        github_token: ${{ inputs.github-token }}
+        delete_user_name: github-actions[bot]
+        issue_number: ${{ inputs.issue-number }} # remove comments from the current PR
+
+    - name: Write comment on PR
+      id: write-comment
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        issue-number: ${{ inputs.issue-number }}
+        body: |
+          🎉  Successfully published new version  🎉
+          ✅  ${{ steps.bump-package-version.outputs.test-output }}
 
 branding:
   icon: "arrow-up-circle"

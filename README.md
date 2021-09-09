@@ -78,7 +78,9 @@ on:
 
 | Name              | Type                     | Required? | Default | Description                                                                                           |
 | ----------------- | ------------------------ | --------- | ------- | ----------------------------------------------------------------------------------------------------- |
+| github-token      | string                   | true      |         | GitHub token used to remove comment from PR                                                           |
 | npm-token         | string                   | true      |         | The NPM auth token to use for publishing package to NPM                                               |
+| issue-number      | number/string            | true      |         | Issue number required in order to write/remove comments on the current PR                             |
 | label             | GitHub PR label (string) |           |         | Type of version bump [major, minor, patch] (required on Open PR / On Push)                            |
 | is-post-merge     | boolean                  | false     | false   | Boolean used to publish package as release on NPM if action is being triggered by post-merging the PR |
 | run-ci            | boolean                  | false     | false   | Value used to determine if npm run ci shall run                                                       |

@@ -80,3 +80,4 @@ else
 fi
 
 echo "::set-output name=version-number::$(echo $bumpedPackageVersion-alpha.$alphaVersionCounter)"
+echo "::set-output name=test-output-two::$(echo "test-output asdasd")"

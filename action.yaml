@@ -192,7 +192,8 @@ runs:
         body: |
           🎉  Successfully published new version  🎉
           (1) ${{ steps.bump-package-version.outputs.test-output }}
-          (2) ${{ steps.bump-package-version.outputs.version-number }}
+          (2) ${{ steps.bump-package-version.outputs.test-output-two }}
+          (3) ${{ steps.bump-package-version.outputs.version-number }}
 
 branding:
   icon: "arrow-up-circle"

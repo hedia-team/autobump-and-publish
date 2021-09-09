@@ -49,26 +49,32 @@ runs:
     - name: Run ci
       if: ${{ inputs.run-ci == 'true' }}
       run: npm run ci --ignore-scripts
+      shell: bash
 
     - name: Run lint
       if: ${{ inputs.run-test == 'true' }}
       run: npm run lint
+      shell: bash
 
     - name: Run lint-pkg
       if: ${{ inputs.run-test == 'true' }}
       run: npm run lint
+      shell: bash
 
     - name: Run test-coverage
       if: ${{ inputs.run-test-coverage == 'true' }}
       run: npm run test-coverage
+      shell: bash
 
     - name: Run test
       if: ${{ inputs.run-test == 'true' }}
       run: npm run test
+      shell: bash
 
     - name: Run tsc
       if: ${{ inputs.run-test == 'true' }}
       run: npm run tsc
+      shell: bash
 
     - name: Publish alpha version
       if: ${{ inputs.skip-step == 'false' }}
@@ -83,11 +89,13 @@ runs:
       run: |
         echo "Package JSON version is already published, please bump the version!"
         exit 1
+      shell: bash
 
     - name: Remove alpha tag
       if: ${{ inputs.skip-step == 'false' }}
       run: |
         chmod +x ./remove-alpha-tag.sh && ./remove-alpha-tag.sh
+      shell: bash
 
     - name: Remove old comment from PR
       if: ${{ inputs.is-open-pr == 'false' }}

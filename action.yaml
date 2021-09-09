@@ -183,11 +183,11 @@ runs:
         comment-author: github-actions[bot]
 
     - name: Delete comment
-        uses: jungwinter/comment@v1
-        with:
-          type: delete
-          comment_id: ${{ steps.find-comment.outputs.comment-author }}
-          token: ${{ inputs.github-token }}
+      uses: jungwinter/comment@v1
+      with:
+        type: delete
+        comment_id: ${{ steps.find-comment.outputs.comment-author }}
+        token: ${{ inputs.github-token }}
 
     - name: Write comment on PR
       id: write-comment

@@ -202,6 +202,7 @@ runs:
         issue-number: ${{ inputs.issue-number }}
         body: |
           🎉  Successfully published new version  🎉
+          ${{ steps.bump-package-version.outputs.version-number }}
 
 branding:
   icon: "arrow-up-circle"

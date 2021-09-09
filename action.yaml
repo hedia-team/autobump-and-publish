@@ -1,4 +1,4 @@
-name: "Hedia - Autobump & Publish"
+name: "Autobump & Publish"
 description: "Hedia's npm packages autobumper"
 
 inputs:

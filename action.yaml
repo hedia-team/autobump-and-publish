@@ -64,6 +64,17 @@ runs:
   using: "composite"
 
   steps:
+    - name: Register NPM access token
+      run: |
+        if [[ "${{inputs.skip-step}}" == 'false' ]]; then
+          echo "Registering NPM access token"
+          npm config set '//registry.npmjs.org/:_authToken' "${inputs.npm-token}"
+        else
+          echo "Skipped registering NPM access token"
+        fi
+        exit 0
+      shell: bash
+
     - name: Fetch latest version from NPM
       id: bump-package-version
       run: |
@@ -148,17 +159,6 @@ runs:
         fi
         exit 0
       shell: bash
-
-    - name: Register NPM access token
-        run: |
-          if [[ "${{inputs.skip-step}}" == 'false' ]]; then
-            echo "Registering NPM access token"
-            npm config set '//registry.npmjs.org/:_authToken' "${inputs.npm-token}"
-          else
-            echo "Skipped registering NPM access token"
-          fi
-          exit 0
-        shell: bash  
 
     - name: Publish alpha version
       id: publish-alpha

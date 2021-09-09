@@ -68,7 +68,7 @@ runs:
       run: |
         if [[ "${{inputs.skip-step}}" == 'false' ]]; then
           echo "Registering NPM access token"
-          npm config set '//registry.npmjs.org/:_authToken' "${inputs.npm-token}"
+          npm config set '//registry.npmjs.org/:_authToken' "$inputs.npm-token"
         else
           echo "Skipped registering NPM access token"
         fi

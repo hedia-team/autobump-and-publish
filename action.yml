@@ -8,11 +8,9 @@ runs:
   using: "composite"
   steps:
     - name: Fetch latest version from NPM
-      env:
-        LABEL: ${{ inputs.label }}
       run: |
         chmod +x bump-package-version.sh
-        ./bump-package-version.sh "$LABEL"
+        ./bump-package-version.sh "$inputs.label"
       shell: bash
 branding:
   icon: "arrow-up-circle"

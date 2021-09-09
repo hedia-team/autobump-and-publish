@@ -12,21 +12,27 @@ inputs:
   run-ci: # [true, false]
     description: "Run npm run ci"
     required: false
+    default: false
   run-lint: # [true, false]
     description: "Run npm run lint"
     required: false
+    default: false
   run-lint-pkg: # [true, false]
     description: "Run npm run lint-pkg"
     required: false
+    default: false
   run-test: # [true, false]
     description: "Run npm run test"
     required: false
+    default: false
   run-test-coverage: # [true, false]
     description: "Run npm run test-coverage"
     required: false
+    default: false
   run-tsc: # [true, false]
     description: "Run npm run tsc"
     required: false
+    default: false
   skip-step: # [true, false]
     description: "Variable used to determine if certain steps should be skipped"
     required: true

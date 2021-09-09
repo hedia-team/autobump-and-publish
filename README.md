@@ -27,8 +27,6 @@ on:
     with:
         label: ${{ toJson(github.event.pull_request.labels.*.name) }}
         npm-token: ${{ env.NPM_TOKEN }}
-        issue-number: ${{ github.event.number }}
-        github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 #### On push commit to PR
@@ -53,8 +51,6 @@ on:
     with:
         label: ${{ toJson(github.event.pull_request.labels.*.name) }}
         npm-token: ${{ env.NPM_TOKEN }}
-        issue-number: ${{ github.event.number }}
-        github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 #### On post merge
@@ -73,8 +69,6 @@ on:
     uses: hedia-team/autobump-and-publish@master
     with:
         npm-token: ${{ env.NPM_TOKEN }}
-        issue-number: ${{ github.event.number }}
-        github-token: ${{ secrets.GITHUB_TOKEN }}
         is-post-merge: true
 ```
 
@@ -84,9 +78,7 @@ on:
 
 | Name              | Type                     | Required? | Default | Description                                                                                           |
 | ----------------- | ------------------------ | --------- | ------- | ----------------------------------------------------------------------------------------------------- |
-| github-token      | string                   | true      |         | GitHub token used to remove comment from PR                                                           |
 | npm-token         | string                   | true      |         | The NPM auth token to use for publishing package to NPM                                               |
-| issue-number      | number/string            | true      |         | Issue number required in order to write/remove comments on the current PR                             |
 | label             | GitHub PR label (string) |           |         | Type of version bump [major, minor, patch] (required on Open PR / On Push)                            |
 | is-post-merge     | boolean                  | false     | false   | Boolean used to publish package as release on NPM if action is being triggered by post-merging the PR |
 | run-ci            | boolean                  | false     | false   | Value used to determine if npm run ci shall run                                                       |

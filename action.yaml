@@ -156,12 +156,12 @@ runs:
       run: |
         if [[ "${{inputs.is-post-merge}}" == 'true' ]]; then
           echo "publishing release on npm"
-          publish-output=$(npm publish)
+          publish=$(npm publish)
         else
           echo "publishing alpha on npm"
-          publish-output=$(npm publish --tag alpha)
+          publish=$(npm publish --tag alpha)
         fi
-        echo ::set-output name=publish-output::"$publish-output"
+        echo ::set-output name=publish-output::"$publish"
       shell: bash
 
     - name: Remove alpha tag

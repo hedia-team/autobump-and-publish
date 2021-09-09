@@ -22,13 +22,8 @@ inputs:
     required: false
     default: false
 
-  is-open-pr: # [true, false]
-    description: "Variable used to determine if action is being triggered by oppening a PR"
-    required: false
-    default: false
-
   is-post-merge: # [true, false]
-    description: "Variable used to determine if action is being triggered by post-merging a PR"
+    description: "Variable used to determine if action is being triggered by post-merging the PR (Will publish package as release)"
     required: false
     default: false
 

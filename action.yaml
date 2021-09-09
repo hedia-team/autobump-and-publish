@@ -17,11 +17,6 @@ inputs:
   label:
     description: "Type of version bump [major, minor, patch]"
 
-  skip-step: # [true, false]
-    description: "Variable used to determine if certain steps should be skipped"
-    required: false
-    default: false
-
   is-post-merge: # [true, false]
     description: "Variable used to determine if action is being triggered by post-merging the PR (Will publish package as release)"
     required: false
@@ -63,13 +58,8 @@ runs:
   steps:
     - name: Register NPM access token
       run: |
-        if [[ "${{inputs.skip-step}}" == 'false' ]]; then
-          echo "Registering NPM access token"
-          npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
-        else
-          echo "Skipped registering NPM access token"
-        fi
-        exit 0
+        echo "Registering NPM access token"
+        npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
       env:
         NPM_TOKEN: ${{ inputs.npm-token }}
       shell: bash
@@ -77,7 +67,7 @@ runs:
     - name: Fetch latest version from NPM
       id: bump-package-version
       run: |
-        if [[ "${{inputs.skip-step}}" == 'false' && "${{inputs.is-post-merge}}" == 'false' ]]; then
+        if [[ "${{inputs.is-post-merge}}" == 'false' ]]; then
           echo "Fetching latest package version"
           chmod +x bump-package-version.sh
           ./bump-package-version.sh "${LABEL}"
@@ -92,7 +82,7 @@ runs:
     - name: Run ci
       id: run-ci
       run: |
-        if [[ "${{inputs.run-ci}}" == 'true' && "${{inputs.skip-step}}" == 'false' && "${{inputs.is-post-merge}}" == 'false' ]]; then
+        if [[ "${{inputs.run-ci}}" == 'true' && "${{inputs.is-post-merge}}" == 'false' ]]; then
           echo "Running ci"
           npm run ci --ignore-scripts
         else
@@ -104,7 +94,7 @@ runs:
     - name: Run lint
       id: run-lint
       run: |
-        if [[ "${{inputs.run-lint}}" == 'true' && "${{inputs.skip-step}}" == 'false' && "${{inputs.is-post-merge}}" == 'false' ]]; then
+        if [[ "${{inputs.run-lint}}" == 'true' && "${{inputs.is-post-merge}}" == 'false' ]]; then
           echo "Running lint"
           npm run lint
         else
@@ -116,7 +106,7 @@ runs:
     - name: Run lint-pkg
       id: run-lint-pkg
       run: |
-        if [[ "${{inputs.run-lint-pkg}}" == 'true' && "${{inputs.skip-step}}" == 'false' && "${{inputs.is-post-merge}}" == 'false' ]]; then
+        if [[ "${{inputs.run-lint-pkg}}" == 'true' && "${{inputs.is-post-merge}}" == 'false' ]]; then
           echo "Running lint-pkg"
           npm run lint-pkg
         else
@@ -128,7 +118,7 @@ runs:
     - name: Run test-coverage
       id: run-test-coverage
       run: |
-        if [[ "${{inputs.run-test-coverage}}" == 'true' && "${{inputs.skip-step}}" == 'false' && "${{inputs.is-post-merge}}" == 'false' ]]; then
+        if [[ "${{inputs.run-test-coverage}}" == 'true' && "${{inputs.is-post-merge}}" == 'false' ]]; then
           echo "Running test-coverage"
           npm run test-coverage
         else
@@ -140,7 +130,7 @@ runs:
     - name: Run test
       id: run-test
       run: |
-        if [[ "${{inputs.run-test}}" == 'true' && "${{inputs.skip-step}}" == 'false' && "${{inputs.is-post-merge}}" == 'false' ]]; then
+        if [[ "${{inputs.run-test}}" == 'true' && "${{inputs.is-post-merge}}" == 'false' ]]; then
           echo "Running test"
           npm run test
         else
@@ -152,7 +142,7 @@ runs:
     - name: Run tsc
       id: run-tsc
       run: |
-        if [[ "${{inputs.run-tsc}}" == 'true' && "${{inputs.skip-step}}" == 'false' && "${{inputs.is-post-merge}}" == 'false' ]]; then
+        if [[ "${{inputs.run-tsc}}" == 'true' && "${{inputs.is-post-merge}}" == 'false' ]]; then
           echo "Running tsc"
           npm run tsc
         else
@@ -167,19 +157,17 @@ runs:
         if [[ "${{inputs.is-post-merge}}" == 'true' ]]; then
           echo "publishing release on npm"
           npm publish
-        elif [[ "${{inputs.skip-step}}" == 'false' ]]; then
+        else
           echo "publishing alpha on npm"
           npm publish --tag alpha
-        else
-          echo "Skipped publishing"
         fi
-        exit 0
       shell: bash
 
     - name: Remove alpha tag
       id: remove-alpha-tag
       run: |
-        if [[ "${{inputs.skip-step}}" == 'false' && "${{inputs.is-post-merge}}" == 'false' ]]; then
+        if [[  "${{inputs.is-post-merge}}" == 'false' ]]; then
+          echo "Removing the alpha-tag"
           chmod +x ./remove-alpha-tag.sh && ./remove-alpha-tag.sh
         else
           echo "Skipped remove-alpha-tag"
@@ -198,11 +186,13 @@ runs:
     - name: Write comment on PR
       id: write-comment
       uses: peter-evans/create-or-update-comment@v1
+      env:
+        VERSION: ${{ steps.bump-package-version.outputs.version-number }}
       with:
         issue-number: ${{ inputs.issue-number }}
         body: |
           🎉  Successfully published new version  🎉
-          ${{ steps.bump-package-version.outputs.version-number }}
+          "${VERSION}"
 
 branding:
   icon: "arrow-up-circle"

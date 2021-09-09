@@ -71,6 +71,7 @@ runs:
           echo "Fetching latest package version"
           chmod +x bump-package-version.sh
           ./bump-package-version.sh "${LABEL}"
+          echo "::set-output name=test-output::$(echo "test-output asdasd")"
         else
           echo "Skipped bumping version"
         fi
@@ -186,13 +187,12 @@ runs:
     - name: Write comment on PR
       id: write-comment
       uses: peter-evans/create-or-update-comment@v1
-      env:
-        VERSION: ${{ steps.bump-package-version.outputs.version-number }}
       with:
         issue-number: ${{ inputs.issue-number }}
         body: |
           🎉  Successfully published new version  🎉
-          ${{ env.VERSION }}
+          (1) ${{ steps.bump-package-version.outputs.test-output }}
+          (2) ${{ steps.bump-package-version.outputs.version-number }}
 
 branding:
   icon: "arrow-up-circle"

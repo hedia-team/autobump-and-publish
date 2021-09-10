@@ -1,4 +1,4 @@
-# @latest on npm
+# @latest version on npm
 latestVersionNPM=$(npm show ./ dist-tags.latest --json)
 echo "Latest dist-tag version on npm: $latestVersionNPM"
 

@@ -6,11 +6,15 @@ This GA allows to easily install and test npm packages as they’ll be automatic
 
 All consecutive commits pushed will be published aswell, handling automatically the versioning of each.
 
+## Considerations
+
+In order to keep the version properly updated, make sure to enable the "Require branches to be up to date before merging" rule on your GitHub `mater` branch.
+
 ## Usage
 
 1. **On open PR** (poiting to `/master`), the GA will make sure to bump the package.json to the required version based on the label set on the PR [major, minor, patch]. In addition, the package will be published to NPM as an alpha release (-alpha.X).\*
 
-2. **On push commit** (poiting to `/master`), the GA will make sure to bump the alpha release & publish a new version to NPM.\* \*\*
+2. **On push commit** (poiting to `/master`), the GA will make sure to bump the alpha release & publish a new version to NPM.\*
 
 3. **On post-merge** (poiting to `/master`), the GA will publish the package as the @latest release.
 

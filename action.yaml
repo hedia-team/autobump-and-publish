@@ -67,14 +67,9 @@ runs:
     - name: Fetch latest version from NPM
       id: bump-package-version
       run: |
-        if [[ "${{inputs.is-post-merge}}" == 'false' ]]; then
-          echo "Fetching latest package version"
-          chmod +x bump-package-version.sh
-          ./bump-package-version.sh "${LABEL}"
-        else
-          echo "Skipped bumping version"
-        fi
-        exit 0
+        echo "Fetching latest package version"
+        chmod +x bump-package-version.sh
+        ./bump-package-version.sh "${LABEL}"
       env:
         LABEL: ${{ inputs.label }}
       shell: bash

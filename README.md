@@ -6,10 +6,6 @@ This GA allows to easily install and test npm packages as they’ll be automatic
 
 All consecutive commits pushed will be published aswell, handling automatically the versioning of each.
 
-## Considerations
-
-In order to keep the version properly updated, make sure to enable the "Require branches to be up to date before merging" rule on your GitHub `mater` branch.
-
 ## Usage
 
 1. **On open PR** (poiting to `/master`), the GA will make sure to bump the package.json to the required version based on the label set on the PR [major, minor, patch]. In addition, the package will be published to NPM as an alpha release (-alpha.X).\*
@@ -21,6 +17,10 @@ In order to keep the version properly updated, make sure to enable the "Require 
 \* Steps require to setup `actions/checkout@v2` using own [PAT](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) in order to re-trigger workflows. If using the default `${{secrets.GITHUB_TOKEN}`, workflows will be omitted.
 
 The `package.json` version is always bumped accordingly to the latest published version on NPM, and for instance, it will auto-bump in the case of multiple PR's opened at the same time with the same version release type.
+
+## Considerations
+
+In order to keep the version properly updated, make sure to enable the "Require branches to be up to date before merging" rule on your GitHub `mater` branch.
 
 ### Example Workflow file
 
@@ -93,8 +93,6 @@ on:
 ```
 
 ### Inputs
-
-:warning: Under construction :warning:
 
 | Name              | Type                     | Required?         | Default | Description                                                                                                                                     |
 | ----------------- | ------------------------ | ----------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |

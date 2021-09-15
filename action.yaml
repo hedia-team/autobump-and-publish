@@ -89,8 +89,8 @@ runs:
       run: |
         if [[ "${{inputs.is-post-merge}}" == 'false' ]]; then
           echo "Fetching latest package version"
-          chmod +x bump-package-version.sh
-          ./bump-package-version.sh "${LABEL}"
+          chmod +x ${{ github.workspace }}/bump-package-version.sh
+          ${{ github.workspace }}/bump-package-version.sh "${LABEL}"
         else
           echo "Skipped bumping version"
         fi

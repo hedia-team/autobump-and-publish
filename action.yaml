@@ -89,8 +89,8 @@ runs:
       run: |
         if [[ "${{inputs.is-post-merge}}" == 'false' ]]; then
           echo "Fetching latest package version"
-          chmod +x ${{ github.workspace }}/bump-package-version.sh
-          ${{ github.workspace }}/bump-package-version.sh "${LABEL}"
+          chmod +x ${{ github.action_path }}/bump-package-version.sh
+          ${{ github.action_path }}/bump-package-version.sh "${LABEL}"
         else
           echo "Skipped bumping version"
         fi
@@ -239,7 +239,7 @@ runs:
       run: |
         if [[ "${{inputs.is-post-merge}}" == 'false' ]]; then
           echo "Removing the alpha-tag"
-          chmod +x ./remove-alpha-tag.sh && ./remove-alpha-tag.sh
+          chmod +x ${{ github.action_path }}/remove-alpha-tag.sh && ${{ github.action_path }}/remove-alpha-tag.sh
         else
           echo "Skipped remove-alpha-tag"
         fi

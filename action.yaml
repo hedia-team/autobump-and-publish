@@ -37,6 +37,11 @@ inputs:
     required: false
     default: false
 
+  run-prettier: # [true, false]
+    description: "Value used to determine if npm run prettier shall run"
+    required: false
+    default: false
+
   run-test: # [true, false]
     description: "Value used to determine if npm run test shall run"
     required: false
@@ -111,6 +116,18 @@ runs:
           npm run lint-pkg
         else
           echo "Skipped lint-pkg"
+        fi
+        exit 0
+      shell: bash
+
+    - name: Run prettier
+      id: run-prettier
+      run: |
+        if [[ "${{inputs.run-prettier}}" == 'true' ]]; then
+          echo "Running prettier"
+          npm run prettier
+        else
+          echo "Skipped prettier"
         fi
         exit 0
       shell: bash

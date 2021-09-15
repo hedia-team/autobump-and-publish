@@ -94,20 +94,21 @@ on:
 
 ### Inputs
 
-| Name              | Type                     | Required?         | Default | Description                                                                                                                                     |
-| ----------------- | ------------------------ | ----------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| github-token      | string                   | true              |         | GitHub token required by izhangzhihao/delete-comment to remove comment from PR                                                                  |
-| npm-token         | string                   | true              |         | NPM token required to publish package to npm                                                                                                    |
-| issue-number      | number/string            | true              |         | Issue number required by peter-evans/create-or-update-comment & izhangzhihao/delete-comment in order to write/remove comments on the current PR |
-| label             | GitHub PR label (string) | On open / On push |         | Type of version bump [major, minor, patch] (required on Open PR / On Push)                                                                      |
-| is-post-merge     | boolean                  | false             | false   | Boolean used to publish package as release on NPM if action is being triggered by post-merging the PR                                           |
-| run-ci            | boolean                  | false             | false   | Value used to determine if npm run ci shall run                                                                                                 |
-| run-lint          | boolean                  | false             | false   | Value used to determine if npm run lint shall run                                                                                               |
-| run-lint-pkg      | boolean                  | false             | false   | Value used to determine if npm run lint-pkg shall run                                                                                           |
-| run-prettier      | boolean                  | false             | false   | Value used to determine if npm run prettier shall run                                                                                           |
-| run-test          | boolean                  | false             | false   | Value used to determine if npm run test shall run                                                                                               |
-| run-test-coverage | boolean                  | false             | false   | Value used to determine if npm run test-coverage shall run                                                                                      |
-| run-tsc           | boolean                  | false             | false   | Value used to determine if npm run tsc shall run                                                                                                |
+| Name              | Type                     | Required?         | Default | Description                                                                  |
+| ----------------- | ------------------------ | ----------------- | ------- | ---------------------------------------------------------------------------- |
+| github-token      | string                   | true              |         | GitHub token required by delete-comment workflow to remove comment from PR   |
+| npm-token         | string                   | true              |         | NPM token required to publish package to npm                                 |
+| issue-number      | number/string            | true              |         | Issue number required by create-or-update-comment & delete-comment workflows |
+| label             | GitHub PR label (string) | On open / On push |         | Type of version bump [major, minor, patch] (required on Open PR / On Push)   |
+| is-post-merge     | boolean                  | false             | false   | Boolean used to publish package as release on NPM                            |
+| run-ci            | boolean                  | false             | false   | Value used to determine if npm run ci shall run                              |
+| run-lint          | boolean                  | false             | false   | Value used to determine if npm run lint shall run                            |
+| run-lint-pkg      | boolean                  | false             | false   | Value used to determine if npm run lint-pkg shall run                        |
+| run-prettier      | boolean                  | false             | false   | Value used to determine if npm run prettier shall run                        |
+| run-test          | boolean                  | false             | false   | Value used to determine if npm run test shall run                            |
+| run-test-coverage | boolean                  | false             | false   | Value used to determine if npm run test-coverage shall run                   |
+| run-tsc           | boolean                  | false             | false   | Value used to determine if npm run tsc shall run                             |
+| run-tsc-emit      | boolean                  | false             | false   | Value used to determine if npm run tsc-emit shall run                        |
 
 ## License
 

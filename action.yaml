@@ -57,6 +57,11 @@ inputs:
     required: false
     default: false
 
+  run-tsc-emit: # [true, false]
+    description: "Value used to determine if npm run tsc-emit shall run"
+    required: false
+    default: false
+
 runs:
   using: "composite"
 
@@ -164,6 +169,18 @@ runs:
           npm run tsc
         else
           echo "Skipped tsc"
+        fi
+        exit 0
+      shell: bash
+
+    - name: Run tsc-emit
+      id: run-tsc-emit
+      run: |
+        if [[ "${{inputs.run-tsc-emit}}" == 'true' ]]; then
+          echo "Running tsc-emit"
+          npm run tsc-emit
+        else
+          echo "Skipped tsc-emit"
         fi
         exit 0
       shell: bash

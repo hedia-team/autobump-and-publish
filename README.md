@@ -109,6 +109,8 @@ on:
 | run-test-coverage | boolean                  | false             | false   | Value used to determine if npm run test-coverage shall run                   |
 | run-tsc           | boolean                  | false             | false   | Value used to determine if npm run tsc shall run                             |
 | run-tsc-emit      | boolean                  | false             | false   | Value used to determine if npm run tsc-emit shall run                        |
+| run-compile       | boolean                  | false             | false   | Value used to determine if npm run compile shall run                         |
+| run-is-translated | boolean                  | false             | false   | Value used to determine if npm run is-translated shall run                   |
 
 ## License
 

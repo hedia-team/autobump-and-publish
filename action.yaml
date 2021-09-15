@@ -62,6 +62,16 @@ inputs:
     required: false
     default: false
 
+  run-compile: # [true, false]
+    description: "Value used to determine if npm run compile shall run"
+    required: false
+    default: false
+
+  run-is-translated: # [true, false]
+    description: "Value used to determine if npm run is-translated shall run"
+    required: false
+    default: false
+
 runs:
   using: "composite"
 
@@ -101,6 +111,18 @@ runs:
         exit 0
       shell: bash
 
+    - name: Run is-translated
+      id: run-is-translated
+      run: |
+        if [[ "${{inputs.run-is-translated}}" == 'true' ]]; then
+          echo "Running is-translated"
+          npm run is-translated
+        else
+          echo "Skipped is-translated"
+        fi
+        exit 0
+      shell: bash
+
     - name: Run lint
       id: run-lint
       run: |
@@ -133,6 +155,18 @@ runs:
           npm run prettier
         else
           echo "Skipped prettier"
+        fi
+        exit 0
+      shell: bash
+
+    - name: Run compile
+      id: run-compile
+      run: |
+        if [[ "${{inputs.run-compile}}" == 'true' ]]; then
+          echo "Running compile"
+          npm run compile
+        else
+          echo "Skipped compile"
         fi
         exit 0
       shell: bash

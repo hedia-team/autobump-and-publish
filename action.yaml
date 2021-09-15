@@ -82,7 +82,7 @@ runs:
     - name: Run ci
       id: run-ci
       run: |
-        if [[ "${{inputs.run-ci}}" == 'true' && "${{inputs.is-post-merge}}" == 'false' ]]; then
+        if [[ "${{inputs.run-ci}}" == 'true' ]]; then
           echo "Running ci"
           npm run ci --ignore-scripts
         else
@@ -94,7 +94,7 @@ runs:
     - name: Run lint
       id: run-lint
       run: |
-        if [[ "${{inputs.run-lint}}" == 'true' && "${{inputs.is-post-merge}}" == 'false' ]]; then
+        if [[ "${{inputs.run-lint}}" == 'true' ]]; then
           echo "Running lint"
           npm run lint
         else
@@ -106,7 +106,7 @@ runs:
     - name: Run lint-pkg
       id: run-lint-pkg
       run: |
-        if [[ "${{inputs.run-lint-pkg}}" == 'true' && "${{inputs.is-post-merge}}" == 'false' ]]; then
+        if [[ "${{inputs.run-lint-pkg}}" == 'true' ]]; then
           echo "Running lint-pkg"
           npm run lint-pkg
         else
@@ -118,7 +118,7 @@ runs:
     - name: Run test-coverage
       id: run-test-coverage
       run: |
-        if [[ "${{inputs.run-test-coverage}}" == 'true' && "${{inputs.is-post-merge}}" == 'false' ]]; then
+        if [[ "${{inputs.run-test-coverage}}" == 'true' ]]; then
           echo "Running test-coverage"
           npm run test-coverage
         else
@@ -130,7 +130,7 @@ runs:
     - name: Run test
       id: run-test
       run: |
-        if [[ "${{inputs.run-test}}" == 'true' && "${{inputs.is-post-merge}}" == 'false' ]]; then
+        if [[ "${{inputs.run-test}}" == 'true' ]]; then
           echo "Running test"
           npm run test
         else
@@ -142,7 +142,7 @@ runs:
     - name: Run tsc
       id: run-tsc
       run: |
-        if [[ "${{inputs.run-tsc}}" == 'true' && "${{inputs.is-post-merge}}" == 'false' ]]; then
+        if [[ "${{inputs.run-tsc}}" == 'true' ]]; then
           echo "Running tsc"
           npm run tsc
         else

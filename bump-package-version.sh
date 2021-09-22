@@ -31,6 +31,7 @@ else
 		;;
 	*)
 		echo "No [major, minor, patch] label has been set"
+		exit 1
 		;;
   esac
 fi

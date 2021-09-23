@@ -3,20 +3,15 @@ latestVersionNPM=$(npm show ./ dist-tags.latest --json)
 echo "Latest dist-tag version on npm: $latestVersionNPM"
 
 # Initial package.json version
-packageJSONVersion=$(sed -nE 's/^\s*"version": "([0-9]+.[0-9]+.[0-9]+).*?",$/\1/p' package.json)
-echo "Initial package.json version: $packageJSONVersion"
+# packageJSONVersion=$(sed -nE 's/^\s*"version": "([0-9]+.[0-9]+.[0-9]+).*?",$/\1/p' package.json)
+# echo "Initial package.json version: $packageJSONVersion"
 
-npmV=`echo $latestVersionNPM | sed 's/\.//g' | bc`
-pkgV=`echo $packageJSONVersion | sed 's/\.//g' | bc`
+# Set package.json to @latest version on npm
+sed -i 's/\("version": \)\("[0-9]\+.[0-9]\+.[0-9]\+"\)/\1\'$latestVersionNPM'/' package.json
+echo "Updated local package.json: $latestVersionNPM"
 
-# Check if the packageJSONVersion is up to date.
-# Otherwise, bump the package.json version, accordingly to the label.
-if [[ $npmV -lt $pkgV ]]; then
-    echo "package.json version is up to date"
-else
-	# Set package.json to latest NPM version prior to bump version
-	sed -i 's/\("version": \)\("[0-9]\+.[0-9]\+.[0-9]\+\)\(\"\)/\1\'$latestVersionNPM'/' package.json
-    case "$1" in
+# Bump the package.json version, accordingly to the label.
+case "$1" in
 	*"major"*)
 		echo "Bumping pre-major version"
 		echo "$(npm version --no-git-tag-version premajor --preid alpha)"
@@ -33,8 +28,10 @@ else
 		echo "No [major, minor, patch] label has been set"
 		exit 1
 		;;
-  esac
-fi
+esac
+
+# Bumped package.json version
+bumpedPackageJSONVersion=$(sed -nE 's/^\s*"version": "([0-9]+.[0-9]+.[0-9]+).*?",$/\1/p' package.json)
 
 # Get all published versions on npm.
 allVersionsArray=$(npm show ./ versions)

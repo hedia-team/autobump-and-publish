@@ -44,6 +44,7 @@ runs:
       run: |
         git config --global user.email ${{ inputs.git-email }}
         git config --global user.name ${{ inputs.git-name }}
+      shell: bash
 
     - name: Register NPM access token
       run: |

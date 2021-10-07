@@ -2,6 +2,10 @@
 latestVersionNPM=$(npm show ./ dist-tags.latest --json)
 echo "Latest dist-tag version on npm: $latestVersionNPM"
 
+# Initial package.json version
+initialPackageJSON=$(sed -nE 's/^\s*"version": "([0-9]+.[0-9]+.[0-9]+).*?",$/\1/p' package.json)
+echo "Initial package.json version: $initialPackageJSON"
+
 # Set package.json to @latest version on npm
 sed -i 's/\("version": \)\("[0-9]\+.[0-9]\+.[0-9]\+"\)/\1\'$latestVersionNPM'/' package.json
 echo "Updated local package.json: $latestVersionNPM"
@@ -53,21 +57,13 @@ if [[ "$alphaVersionCounter" != "" ]];
 		alphaVersionCounter="0"
 fi
 
-# Get the current packageVersion and check if -alpha.X tag has been set (in case of package.json version bump (Open PR))
-packageVersion=$(sed -nE 's/^\s*"version": "(.*?)",$/\1/p' package.json)
-if [[ "$packageVersion" == *"-alpha"* ]];
-then
-	# On open PR
-	# Set alpha tag to the correspondent version
-	echo "Setting alpha version to $alphaVersionCounter"
-	sed -i 's/\("version": "[0-9]\+.[0-9]\+.[0-9]\+\)\(-alpha.\)\([0-9]\)/\1\'-alpha.$alphaVersionCounter'/' package.json
-	# Commit changes
-	git add package.json
-	git commit -m "autobump $upToDatePackageJSON"
-else
-	echo "on push"
-	# On push commit
-	# Set alpha tag to the correspondent version
-	echo "Setting alpha version to $alphaVersionCounter"
-	sed -i 's/\("version": "\)\([0-9]\+\.[0-9]\+\.[0-9]\+\)\("\)/\1\2\-alpha.'$alphaVersionCounter'\3/' package.json
+# Set alpha tag to the correspondent version
+echo "Setting alpha version to $alphaVersionCounter"
+sed -i 's/\("version": "[0-9]\+.[0-9]\+.[0-9]\+\)\(-alpha.\)\([0-9]\)/\1\'-alpha.$alphaVersionCounter'/' package.json
+
+# If there was version bump, commit changes
+if [[ "$initialPackageJSON" != "$upToDatePackageJSON" ]];
+	then
+		git add package.json
+		git commit -m "autobump $upToDatePackageJSON"
 fi

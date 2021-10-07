@@ -2,9 +2,8 @@
 
 This GitHub Action intends to manage the versioning of npm packages via auto-bumping, auto-alpha-publishing & auto-releasing.
 
-This GA allows to easily install and test npm packages as they’ll be automatically published to npm as an alpha release at the moment of creating a Pull Request on GitHub.
-
-All consecutive commits pushed will be published aswell, handling automatically the versioning of each.
+Using this GA allows to easily test npm packages as they’ll be automatically published to npm as an alpha release at the moment of creating a Pull Request on GitHub.
+All consecutive commits pushed will be published too, handling automatically the versioning of each.
 
 ## Usage
 

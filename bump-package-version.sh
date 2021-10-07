@@ -2,10 +2,6 @@
 latestVersionNPM=$(npm show ./ dist-tags.latest --json)
 echo "Latest dist-tag version on npm: $latestVersionNPM"
 
-# Initial package.json version
-# packageJSONVersion=$(sed -nE 's/^\s*"version": "([0-9]+.[0-9]+.[0-9]+).*?",$/\1/p' package.json)
-# echo "Initial package.json version: $packageJSONVersion"
-
 # Set package.json to @latest version on npm
 sed -i 's/\("version": \)\("[0-9]\+.[0-9]\+.[0-9]\+"\)/\1\'$latestVersionNPM'/' package.json
 echo "Updated local package.json: $latestVersionNPM"

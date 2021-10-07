@@ -121,6 +121,7 @@ runs:
       id: write-comment
       uses: peter-evans/create-or-update-comment@v1
       with:
+        token: ${{ inputs.github-token }}
         issue-number: ${{ inputs.issue-number }}
         body: |
           🎉  Successfully published new version  🎉

@@ -3,79 +3,48 @@ description: "Hedia's npm packages autobumper & publisher"
 
 inputs:
   github-token:
-    description: "GitHub token required by izhangzhihao/delete-comment to remove comment from PR"
+    description: "Required by izhangzhihao/delete-comment to remove comment from PR"
     required: true
 
   npm-token:
-    description: "NPM token required to publish package to npm"
+    description: "Required to publish package to npm"
     required: true
 
   issue-number:
-    description: "Issue number required by peter-evans/create-or-update-comment & izhangzhihao/delete-comment in order to write/remove comments on the current PR"
+    description: "Required by peter-evans/create-or-update-comment & izhangzhihao/delete-comment in order to write/remove comments on the current PR"
     required: true
 
   label:
     description: "Type of version bump [major, minor, patch]"
 
-  is-post-merge: # [true, false]
-    description: "Boolean used to publish package as release on NPM if action is being triggered by post-merging the PR"
+  git-email:
+    description: "Value for git config user.email"
+    required: false
+    default: "github-action@users.noreply.github.com"
+
+  git-name:
+    description: "Value for git config user.name"
+    required: false
+    default: "github-actions[bot]"
+
+  is-post-merge:
+    description: "Boolean used to publish package as release on NPM when post-merging the PR"
     required: false
     default: false
 
-  run-ci: # [true, false]
-    description: "Value used to determine if npm run ci shall run"
+  run-script: # [string - npm run ...]
+    description: "Scripts to be executed prior to publishing package"
     required: false
-    default: false
-
-  run-lint: # [true, false]
-    description: "Value used to determine if npm run lint shall run"
-    required: false
-    default: false
-
-  run-lint-pkg: # [true, false]
-    description: "Value used to determine if npm run lint-pkg shall run"
-    required: false
-    default: false
-
-  run-prettier: # [true, false]
-    description: "Value used to determine if npm run prettier shall run"
-    required: false
-    default: false
-
-  run-test: # [true, false]
-    description: "Value used to determine if npm run test shall run"
-    required: false
-    default: false
-
-  run-test-coverage: # [true, false]
-    description: "Value used to determine if npm run test-coverage shall run"
-    required: false
-    default: false
-
-  run-tsc: # [true, false]
-    description: "Value used to determine if npm run tsc shall run"
-    required: false
-    default: false
-
-  run-tsc-emit: # [true, false]
-    description: "Value used to determine if npm run tsc-emit shall run"
-    required: false
-    default: false
-
-  run-compile: # [true, false]
-    description: "Value used to determine if npm run compile shall run"
-    required: false
-    default: false
-
-  run-is-translated: # [true, false]
-    description: "Value used to determine if npm run is-translated shall run"
-    required: false
-    default: false
 
 runs:
   using: "composite"
 
   steps:
+    - name: Set git identity
+      run: |
+        git config --global user.email ${{ inputs.git-email }}
+        git config --global user.name ${{ inputs.git-name }}
+
     - name: Register NPM access token
       run: |
         echo "Registering NPM access token"
@@ -99,122 +68,14 @@ runs:
         LABEL: ${{ inputs.label }}
       shell: bash
 
-    - name: Run ci
-      id: run-ci
+    - name: Run scripts
+      id: run-scripts
       run: |
-        if [[ "${{inputs.run-ci}}" == 'true' ]]; then
-          echo "Running ci"
-          npm ci --ignore-scripts
+        if [[ "${{inputs.run-script}}" ]]; then
+          echo "Running scripts"
+          ${{inputs.run-script}}
         else
-          echo "Skipped ci"
-        fi
-        exit 0
-      shell: bash
-
-    - name: Run is-translated
-      id: run-is-translated
-      run: |
-        if [[ "${{inputs.run-is-translated}}" == 'true' ]]; then
-          echo "Running is-translated"
-          npm run is-translated
-        else
-          echo "Skipped is-translated"
-        fi
-        exit 0
-      shell: bash
-
-    - name: Run lint
-      id: run-lint
-      run: |
-        if [[ "${{inputs.run-lint}}" == 'true' ]]; then
-          echo "Running lint"
-          npm run lint
-        else
-          echo "Skipped lint"
-        fi
-        exit 0
-      shell: bash
-
-    - name: Run lint-pkg
-      id: run-lint-pkg
-      run: |
-        if [[ "${{inputs.run-lint-pkg}}" == 'true' ]]; then
-          echo "Running lint-pkg"
-          npm run lint-pkg
-        else
-          echo "Skipped lint-pkg"
-        fi
-        exit 0
-      shell: bash
-
-    - name: Run prettier
-      id: run-prettier
-      run: |
-        if [[ "${{inputs.run-prettier}}" == 'true' ]]; then
-          echo "Running prettier"
-          npm run prettier
-        else
-          echo "Skipped prettier"
-        fi
-        exit 0
-      shell: bash
-
-    - name: Run compile
-      id: run-compile
-      run: |
-        if [[ "${{inputs.run-compile}}" == 'true' ]]; then
-          echo "Running compile"
-          npm run compile
-        else
-          echo "Skipped compile"
-        fi
-        exit 0
-      shell: bash
-
-    - name: Run test-coverage
-      id: run-test-coverage
-      run: |
-        if [[ "${{inputs.run-test-coverage}}" == 'true' ]]; then
-          echo "Running test-coverage"
-          npm run test-coverage
-        else
-          echo "Skipped test-coverage"
-        fi
-        exit 0
-      shell: bash
-
-    - name: Run test
-      id: run-test
-      run: |
-        if [[ "${{inputs.run-test}}" == 'true' ]]; then
-          echo "Running test"
-          npm run test
-        else
-          echo "Skipped test"
-        fi
-        exit 0
-      shell: bash
-
-    - name: Run tsc
-      id: run-tsc
-      run: |
-        if [[ "${{inputs.run-tsc}}" == 'true' ]]; then
-          echo "Running tsc"
-          npm run tsc
-        else
-          echo "Skipped tsc"
-        fi
-        exit 0
-      shell: bash
-
-    - name: Run tsc-emit
-      id: run-tsc-emit
-      run: |
-        if [[ "${{inputs.run-tsc-emit}}" == 'true' ]]; then
-          echo "Running tsc-emit"
-          npm run tsc-emit
-        else
-          echo "Skipped tsc-emit"
+          echo "Skipped run-script"
         fi
         exit 0
       shell: bash
@@ -239,7 +100,8 @@ runs:
       run: |
         if [[ "${{inputs.is-post-merge}}" == 'false' ]]; then
           echo "Removing the alpha-tag"
-          chmod +x ${{ github.action_path }}/remove-alpha-tag.sh && ${{ github.action_path }}/remove-alpha-tag.sh
+          chmod +x ${{ github.action_path }}/remove-alpha-tag.sh
+          ${{ github.action_path }}/remove-alpha-tag.sh
         else
           echo "Skipped remove-alpha-tag"
         fi
@@ -251,7 +113,7 @@ runs:
       uses: izhangzhihao/delete-comment@master
       with:
         github_token: ${{ inputs.github-token }}
-        delete_user_name: github-actions[bot]
+        delete_user_name: ${{ inputs.git-name }}
         issue_number: ${{ inputs.issue-number }} # remove comments from the current PR
 
     - name: Write comment on PR

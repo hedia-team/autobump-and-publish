@@ -2,6 +2,10 @@ name: "Autobump version and publish"
 description: "Hedia's npm packages autobumper & publisher"
 
 inputs:
+  github-token:
+    description: "Required by izhangzhihao/delete-comment to remove comment from PR"
+    required: true
+
   npm-token:
     description: "Required to publish package to npm"
     required: true
@@ -12,11 +16,6 @@ inputs:
 
   label:
     description: "Type of version bump [major, minor, patch]"
-
-  github-token:
-    description: "Required by izhangzhihao/delete-comment to remove comment from PR"
-    default: ${{ secrets.GITHUB_TOKEN }}
-    required: false
 
   git-email:
     description: "Value for git config user.email"

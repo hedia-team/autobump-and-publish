@@ -79,7 +79,7 @@ on:
 | git-email     | string                   | false     | github-action@users.noreply.github.com | Value for git config user.email                                              |
 | git-name      | string                   | false     | github-actions[bot]                    | Value for git config user.name                                               |
 | is-post-merge | boolean                  | false     | false                                  | Boolean used to publish package as release on NPM                            |
-| run-scripts   | string                   | false     | -                                      | Scripts to be executed prior to publishing package                           |
+| run-script    | string                   | false     | -                                      | Script to be executed prior to publishing package                            |
 
 ## License
 

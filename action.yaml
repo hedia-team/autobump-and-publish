@@ -40,6 +40,11 @@ runs:
   using: "composite"
 
   steps:
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+
     - name: Set git identity
       run: |
         git config --global user.email ${{ inputs.git-email }}

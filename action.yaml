@@ -79,7 +79,7 @@ runs:
       run: |
         if [[ "${{inputs.run-script}}" ]]; then
           echo "Running script"
-          echo ${{inputs.run-script}}
+          ${{inputs.run-script}}
         else
           echo "Skipped run-script"
         fi

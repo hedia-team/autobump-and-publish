@@ -1,5 +1,5 @@
-name: "Autobump version and publish"
-description: "Hedia's npm packages autobumper & publisher"
+name: "Autobump version and publish to npm"
+description: "Hedia's npm package autobumper & publisher"
 
 inputs:
   github-token:
@@ -10,50 +10,55 @@ inputs:
     description: "Required to publish package to npm"
     required: true
 
-  issue-number:
-    description: "Required by peter-evans/create-or-update-comment & izhangzhihao/delete-comment in order to write/remove comments on the current PR"
+  node-version:
+    description: "Node version"
     required: true
 
   label:
     description: "Type of version bump [major, minor, patch]"
+    required: true
 
-  git-email:
-    description: "Value for git config user.email"
-    required: false
-    default: "github-action@users.noreply.github.com"
-
-  git-name:
-    description: "Value for git config user.name"
-    required: false
-    default: "github-actions[bot]"
+  issue-number:
+    description: "Required by peter-evans/create-or-update-comment & izhangzhihao/delete-comment in order to write/remove comments on the current PR"
+    required: true
 
   is-post-merge:
-    description: "Boolean used to publish package as release on NPM when post-merging the PR"
+    description: "To identify if package should be published as release on npm when post-merging the PR"
     required: false
-    default: false
+    default: "false"
 
   run-script: # [string - npm run ...]
     description: "Script to be executed prior to publishing package"
     required: false
 
+  git-name:
+    description: "Value for git config user.name"
+    required: false
+    default: "HediaBot"
+
+  git-email:
+    description: "Value for git config user.email"
+    required: false
+    default: "ci@hedia.co"
+
 runs:
   using: "composite"
 
   steps:
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
+    - uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: ${{ inputs.node-version }}
+        cache: "npm"
 
     - name: Set git identity
       run: |
-        git config --global user.email ${{ inputs.git-email }}
         git config --global user.name ${{ inputs.git-name }}
+        git config --global user.email ${{ inputs.git-email }}
       shell: bash
 
-    - name: Register NPM access token
+    - name: Set npm access token
       run: |
-        echo "Registering NPM access token"
+        echo "Set npm access token"
         npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
       env:
         NPM_TOKEN: ${{ inputs.npm-token }}

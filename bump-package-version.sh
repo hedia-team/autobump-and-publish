@@ -1,5 +1,5 @@
 # @latest version on npm
-latestVersionNPM=$(npm show ./ dist-tags.latest --json)
+latestVersionNPM=$(npm show . dist-tags.latest --json)
 echo "Latest dist-tag version on npm: $latestVersionNPM"
 
 # Initial package.json version
@@ -34,7 +34,8 @@ esac
 bumpedPackageJSONVersion=$(sed -nE 's/^\s*"version": "([0-9]+.[0-9]+.[0-9]+).*?",$/\1/p' package.json)
 
 # Get all published versions on npm.
-allVersionsArray=$(npm show ./ versions)
+allVersionsArray=$(npm show . versions)
+
 # Get the current version from the package.json
 upToDatePackageJSON=$(sed -nE 's/^\s*"version": "([0-9]+.[0-9]+.[0-9]+).*?",$/\1/p' package.json)
 

@@ -1,5 +1,7 @@
+LABEL="$1"
+
 # @latest version on npm
-latestVersionNPM=$(npm show ./ dist-tags.latest --json)
+latestVersionNPM=$(npm show . dist-tags.latest --json)
 echo "Latest dist-tag version on npm: $latestVersionNPM"
 
 # Initial package.json version
@@ -11,14 +13,14 @@ sed -i 's/\("version": \)\("[0-9]\+.[0-9]\+.[0-9]\+"\)/\1\'$latestVersionNPM'/' 
 echo "Updated local package.json: $latestVersionNPM"
 
 # Bump the package.json version, accordingly to the label.
-case "$1" in
+case "$LABEL" in
 	*"major"*)
 		echo "Bumping pre-major version"
 		echo "$(npm version --no-git-tag-version premajor --preid alpha)"
 		;;
 	*"minor"*)
 		echo "Bumping pre-minor version"
-		echo $(npm version --no-git-tag-version preminor --preid alpha)
+		echo "$(npm version --no-git-tag-version preminor --preid alpha)"
 		;;
 	*"patch"*)
 		echo "Bumping pre-patch version"
@@ -34,7 +36,8 @@ esac
 bumpedPackageJSONVersion=$(sed -nE 's/^\s*"version": "([0-9]+.[0-9]+.[0-9]+).*?",$/\1/p' package.json)
 
 # Get all published versions on npm.
-allVersionsArray=$(npm show ./ versions)
+allVersionsArray=$(npm show . versions)
+
 # Get the current version from the package.json
 upToDatePackageJSON=$(sed -nE 's/^\s*"version": "([0-9]+.[0-9]+.[0-9]+).*?",$/\1/p' package.json)
 
@@ -65,5 +68,5 @@ sed -i 's/\("version": "[0-9]\+.[0-9]\+.[0-9]\+\)\(-alpha.\)\([0-9]\)/\1\'-alpha
 if [[ "$initialPackageJSON" != "$upToDatePackageJSON" ]];
 	then
 		git add package.json
-		git commit -m "autobump $upToDatePackageJSON"
+		git commit -m "Version autobumped to $upToDatePackageJSON"
 fi

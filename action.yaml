@@ -1,5 +1,5 @@
-name: "Autobump version and publish"
-description: "Hedia's npm packages autobumper & publisher"
+name: "Autobump version and publish to npm"
+description: "Hedia's npm package autobumper & publisher"
 
 inputs:
   github-token:
@@ -10,56 +10,57 @@ inputs:
     description: "Required to publish package to npm"
     required: true
 
-  issue-number:
-    description: "Required by peter-evans/create-or-update-comment & izhangzhihao/delete-comment in order to write/remove comments on the current PR"
+  node-version:
+    description: "Node version"
     required: true
 
   label:
     description: "Type of version bump [major, minor, patch]"
-
-  git-email:
-    description: "Value for git config user.email"
     required: false
-    default: "github-action@users.noreply.github.com"
+
+  issue-number:
+    description: "Required by peter-evans/create-or-update-comment & izhangzhihao/delete-comment in order to write/remove comments on the current PR"
+    required: true
+
+  is-post-merge:
+    description: "To identify if package should be published as release on npm when post-merging the PR"
+    required: false
+    default: "false"
 
   git-name:
     description: "Value for git config user.name"
     required: false
-    default: "github-actions[bot]"
+    default: "HediaBot [bot]"
 
-  is-post-merge:
-    description: "Boolean used to publish package as release on NPM when post-merging the PR"
+  git-email:
+    description: "Value for git config user.email"
     required: false
-    default: false
-
-  run-script: # [string - npm run ...]
-    description: "Script to be executed prior to publishing package"
-    required: false
+    default: "dev@hedia.co"
 
 runs:
   using: "composite"
 
   steps:
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
+    - uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: ${{ inputs.node-version }}
+        cache: "npm"
 
     - name: Set git identity
       run: |
-        git config --global user.email ${{ inputs.git-email }}
         git config --global user.name ${{ inputs.git-name }}
+        git config --global user.email ${{ inputs.git-email }}
       shell: bash
 
-    - name: Register NPM access token
+    - name: Set npm access token
       run: |
-        echo "Registering NPM access token"
+        echo "Set npm access token"
         npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
       env:
         NPM_TOKEN: ${{ inputs.npm-token }}
       shell: bash
 
-    - name: Fetch latest version from NPM
+    - name: Bump package version
       id: bump-package-version
       run: |
         if [[ "${{inputs.is-post-merge}}" == 'false' ]]; then
@@ -74,27 +75,15 @@ runs:
         LABEL: ${{ inputs.label }}
       shell: bash
 
-    - name: Run script
-      id: run-script
-      run: |
-        if [[ "${{inputs.run-script}}" ]]; then
-          echo "Running script"
-          ${{inputs.run-script}}
-        else
-          echo "Skipped run-script"
-        fi
-        exit 0
-      shell: bash
-
-    - name: Publish package on NPM
+    - name: Publish package on npm
       id: publish-package-npm
       run: |
         if [[ "${{inputs.is-post-merge}}" == 'true' ]]; then
-          echo "publishing release on npm"
+          echo "Publishing release on npm"
           publish=$(npm publish)
           version=${publish##*+}
         else
-          echo "publishing alpha on npm"
+          echo "Publishing alpha on npm"
           publish=$(npm publish --tag alpha)
           version=${publish##*+}
         fi

@@ -60,7 +60,7 @@ runs:
         NPM_TOKEN: ${{ inputs.npm-token }}
       shell: bash
 
-    - name: Fetch latest version from NPM
+    - name: Bump package version
       id: bump-package-version
       run: |
         if [[ "${{inputs.is-post-merge}}" == 'false' ]]; then
@@ -75,7 +75,7 @@ runs:
         LABEL: ${{ inputs.label }}
       shell: bash
 
-    - name: Publish package on NPM
+    - name: Publish package on npm
       id: publish-package-npm
       run: |
         if [[ "${{inputs.is-post-merge}}" == 'true' ]]; then

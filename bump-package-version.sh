@@ -68,5 +68,5 @@ sed -i 's/\("version": "[0-9]\+.[0-9]\+.[0-9]\+\)\(-alpha.\)\([0-9]\)/\1\'-alpha
 if [[ "$initialPackageJSON" != "$upToDatePackageJSON" ]];
 	then
 		git add package.json
-		git commit -m "autobump $upToDatePackageJSON"
+		git commit -m "Version autobumped to $upToDatePackageJSON"
 fi

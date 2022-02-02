@@ -1,3 +1,5 @@
+LABEL="$1"
+
 # @latest version on npm
 latestVersionNPM=$(npm show . dist-tags.latest --json)
 echo "Latest dist-tag version on npm: $latestVersionNPM"
@@ -11,14 +13,14 @@ sed -i 's/\("version": \)\("[0-9]\+.[0-9]\+.[0-9]\+"\)/\1\'$latestVersionNPM'/' 
 echo "Updated local package.json: $latestVersionNPM"
 
 # Bump the package.json version, accordingly to the label.
-case "$1" in
+case "$LABEL" in
 	*"major"*)
 		echo "Bumping pre-major version"
 		echo "$(npm version --no-git-tag-version premajor --preid alpha)"
 		;;
 	*"minor"*)
 		echo "Bumping pre-minor version"
-		echo $(npm version --no-git-tag-version preminor --preid alpha)
+		echo "$(npm version --no-git-tag-version preminor --preid alpha)"
 		;;
 	*"patch"*)
 		echo "Bumping pre-patch version"

@@ -1,9 +1,11 @@
-alphaNumber="$(sed -n 's/\("version": "[0-9]\+\.[0-9]\+\.[0-9]\+\-alpha\.\)\([0-9]\+\)\("\)\(,\)/\2/p' package.json)"
+alphaTag="$(sed -n 's/\("version": "[0-9]\+\.[0-9]\+\.[0-9]\+\-alpha\.\)\([0-9]\+\)\("\)\(,\)/\2/p' package.json)"
+echo "alphaTag: ${alphaTag}"
 
 previousCommit="$(git log -1 --pretty=%B)"
+echo "previousCommit: ${previousCommit}"
 
-# If we have an alphaNumber on the package.json, we'll remove it
-if [ "$alphaNumber" != "" ]; 
+# If we have an alphaTag on the package.json, we'll remove it
+if [ "$alphaTag" != "" ]; 
     then
         sed -i 's/\("version": "[0-9]\+\.[0-9]\+\.[0-9]\+\)\(-alpha\.\)\([0-9]\+\)\("\)/\1\4/' package.json
 fi

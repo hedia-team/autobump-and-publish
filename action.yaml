@@ -35,7 +35,7 @@ inputs:
   git-email:
     description: "Value for git config user.email"
     required: false
-    default: "ci@hedia.co"
+    default: "dev@hedia.co"
 
 runs:
   using: "composite"

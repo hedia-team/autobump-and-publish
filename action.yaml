@@ -27,10 +27,6 @@ inputs:
     required: false
     default: "false"
 
-  run-script: # [string - npm run ...]
-    description: "Script to be executed prior to publishing package"
-    required: false
-
   git-name:
     description: "Value for git config user.name"
     required: false
@@ -79,27 +75,15 @@ runs:
         LABEL: ${{ inputs.label }}
       shell: bash
 
-    - name: Run script
-      id: run-script
-      run: |
-        if [[ "${{inputs.run-script}}" ]]; then
-          echo "Running script"
-          ${{inputs.run-script}}
-        else
-          echo "Skipped run-script"
-        fi
-        exit 0
-      shell: bash
-
     - name: Publish package on NPM
       id: publish-package-npm
       run: |
         if [[ "${{inputs.is-post-merge}}" == 'true' ]]; then
-          echo "publishing release on npm"
+          echo "Publishing release on npm"
           publish=$(npm publish)
           version=${publish##*+}
         else
-          echo "publishing alpha on npm"
+          echo "Publishing alpha on npm"
           publish=$(npm publish --tag alpha)
           version=${publish##*+}
         fi

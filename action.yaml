@@ -16,7 +16,7 @@ inputs:
 
   label:
     description: "Type of version bump [major, minor, patch]"
-    required: true
+    required: false
 
   issue-number:
     description: "Required by peter-evans/create-or-update-comment & izhangzhihao/delete-comment in order to write/remove comments on the current PR"
@@ -30,7 +30,7 @@ inputs:
   git-name:
     description: "Value for git config user.name"
     required: false
-    default: "HediaBot"
+    default: "HediaBot [bot]"
 
   git-email:
     description: "Value for git config user.email"

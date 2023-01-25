@@ -44,7 +44,7 @@ runs:
     - uses: actions/setup-node@v2
       with:
         node-version: ${{ inputs.node-version }}
-        # cache: "npm"
+        cache: "npm"
 
     - name: Set git identity
       run: |

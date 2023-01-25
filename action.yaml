@@ -10,10 +10,6 @@ inputs:
     description: "Required to publish package to npm"
     required: true
 
-  node-version:
-    description: "Node version"
-    required: true
-
   label:
     description: "Type of version bump [major, minor, patch]"
     required: false
@@ -43,7 +39,7 @@ runs:
   steps:
     - uses: actions/setup-node@v3
       with:
-        node-version: ${{ inputs.node-version }}
+        node-version-file: 'package.json'
         cache: "npm"
 
     - name: Set git identity

@@ -37,8 +37,10 @@ runs:
   using: "composite"
 
   steps:
-    - uses: actions/setup-node@v3
+    - name: Use Node.js 20
+      uses: actions/setup-node@v4.0.3
       with:
+        node-version: 20
         node-version-file: 'package.json'
         cache: "npm"
 
@@ -83,7 +85,7 @@ runs:
           publish=$(npm publish --tag alpha)
           version=${publish##*+}
         fi
-        echo ::set-output name=publish-output::"$version"
+        echo name=publish-output::"$version" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Remove alpha tag

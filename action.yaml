@@ -37,10 +37,9 @@ runs:
   using: "composite"
 
   steps:
-    - name: Use Node.js 20
+    - name: Use Node.js from package.json
       uses: actions/setup-node@v4.0.3
       with:
-        node-version: 20
         node-version-file: 'package.json'
         cache: "npm"
 

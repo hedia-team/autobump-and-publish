@@ -85,7 +85,8 @@ runs:
           publish=$(npm publish --tag alpha)
           version=${publish##*+}
         fi
-        echo name=publish-output::"$version" >> $GITHUB_OUTPUT
+        echo "publish-output=$version" >> $GITHUB_OUTPUT
+
       shell: bash
 
     - name: Remove alpha tag

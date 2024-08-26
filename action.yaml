@@ -77,7 +77,6 @@ runs:
       run: |
         if [[ "${{inputs.is-post-merge}}" == 'true' ]]; then
           echo "Publishing release on npm"
-          npx bob build
           publish=$(npm publish)
           version=${publish##*+}
         else

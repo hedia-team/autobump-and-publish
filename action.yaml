@@ -118,6 +118,7 @@ runs:
         body: |
           🎉  Successfully published new version  🎉
           ✅  ${{ steps.publish-package-npm.outputs.publish-output }}
+          [skip ci]
 
 branding:
   icon: "arrow-up-circle"

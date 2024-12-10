@@ -50,7 +50,7 @@ do
 done
 
 # Get the alpha counter value of the latest alpha version (for the upToDatePackageJSON version).
-alphaVersionCounter="$(echo "$latestAlphaVersion" | grep -oP '(?:-alpha.)\K\d+')"
+alphaVersionCounter="$(echo "$latestAlphaVersion" | grep -oE '-alpha\.[0-9]+' | sed 's/-alpha\.//')"
 
 # Bumping the alphaVersionCounter by 1.
 if [[ "$alphaVersionCounter" != "" ]];
@@ -62,7 +62,7 @@ fi
 
 # Set alpha tag to the correspondent version
 echo "Setting alpha version to $alphaVersionCounter"
-sed -i "s/\(\"version\": \"[0-9]\+\.[0-9]\+\.[0-9]\+\)\(-alpha\.\)\([0-9]\+\)/\1-alpha.$alphaVersionCounter/" package.json
+sed -nE 's/^[[:space:]]*"version": "([0-9]+\.[0-9]+\.[0-9]+).*?",$/\1/p' package.json
 
 # If there was a version bump, commit changes with [skip ci]
 if [[ "$initialPackageJSON" != "$upToDatePackageJSON" ]];

@@ -50,7 +50,7 @@ do
 done
 
 # Get the alpha counter value of the latest alpha version (for the upToDatePackageJSON version).
-alphaVersionCounter="$(echo "$latestAlphaVersion" | grep -oE '-alpha\.[0-9]+' | sed 's/-alpha\.//')"
+alphaVersionCounter="$(echo "$latestAlphaVersion" | grep -oP '(?:-alpha.)\K\d+')"
 
 # Bumping the alphaVersionCounter by 1.
 if [[ "$alphaVersionCounter" != "" ]];
